@@ -7,7 +7,7 @@
     body { font-family: Arial, sans-serif; margin: 40px; text-align: center; }
     .cover { border: 2px solid black; padding: 40px; width: 650px; margin: auto; }
     h2, h3, p { margin: 10px; }
-    input, button, select { margin: 10px; padding: 8px; width: 80%; }
+    input, button { margin: 10px; padding: 8px; width: 80%; }
     #footer { margin-top: 30px; font-style: italic; color: darkred; }
     img { max-width: 150px; margin: 20px auto; display: block; }
   </style>
@@ -27,14 +27,18 @@
   <!-- Cover Page -->
   <div id="cover" class="cover" style="display:none;">
     <img id="logo" src="" alt="Logo" style="display:none;">
-    <h2 id="uni">Khulna University</h2>
+    <h2>Khulna University</h2>
     <h3>Business Administration Discipline</h3>
     <h3>An Assignment on</h3>
     <h3 id="topicOut"></h3>
     <p>Course Name: Financial Accounting</p>
     <p>Course Code: 0413 03 BA 1209</p>
-    <p>Submitted to: Tania Afroze, Professor</p>
-    <p>Submitted By:</p>
+    <p>Submitted to</p>
+    <p>Tania Afroze</p>
+    <p>Professor</p>
+    <p>Business Administration Discipline</p>
+    <p>Khulna University</p>
+    <p>Submitted By</p>
     <p id="studentOut"></p>
     <p id="idOut"></p>
     <p>25’ Batch</p>
@@ -64,7 +68,7 @@
     function generatePDF() {
       // Fill dynamic fields
       document.getElementById("topicOut").innerText = document.getElementById("topic").value;
-      document.getElementById("studentOut").innerText = "Name: " + document.getElementById("student").value;
+      document.getElementById("studentOut").innerText = "Student Name: " + document.getElementById("student").value;
       document.getElementById("idOut").innerText = "ID: " + document.getElementById("id").value;
 
       // Apply color theme
