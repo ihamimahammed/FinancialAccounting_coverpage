@@ -4,48 +4,80 @@
   <meta charset="UTF-8">
   <title>Assignment Cover Generator</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 40px; }
-    .cover { border: 2px solid black; padding: 40px; width: 600px; margin: auto; }
-    h2, h3, p { text-align: center; }
-    input { margin: 10px; padding: 8px; width: 80%; }
-    button { padding: 10px 20px; margin-top: 20px; }
+    body { font-family: Arial, sans-serif; margin: 40px; text-align: center; }
+    .cover { border: 2px solid black; padding: 40px; width: 650px; margin: auto; }
+    h2, h3, p { margin: 10px; }
+    input, button, select { margin: 10px; padding: 8px; width: 80%; }
+    #footer { margin-top: 30px; font-style: italic; color: darkred; }
+    img { max-width: 150px; margin: 20px auto; display: block; }
   </style>
 </head>
 <body>
   <h2>Assignment Cover Page Generator</h2>
-  <div>
-    <input type="text" id="topic" placeholder="Enter Topic Name"><br>
-    <input type="text" id="student" placeholder="Enter Student Name"><br>
-    <input type="text" id="id" placeholder="Enter Student ID"><br>
-    <button onclick="generatePDF()">Generate PDF</button>
-  </div>
 
+  <!-- Inputs -->
+  <input type="text" id="topic" placeholder="Enter Topic Name"><br>
+  <input type="text" id="student" placeholder="Enter Student Name"><br>
+  <input type="text" id="id" placeholder="Enter Student ID"><br>
+  <input type="file" id="logoUpload" accept="image/*"><br>
+  <label>Choose Color Theme:</label>
+  <input type="color" id="colorPicker" value="#000000"><br>
+  <button onclick="generatePDF()">Generate PDF</button>
+
+  <!-- Cover Page -->
   <div id="cover" class="cover" style="display:none;">
-    <h2>Khulna University</h2>
+    <img id="logo" src="" alt="Logo" style="display:none;">
+    <h2 id="uni">Khulna University</h2>
     <h3>Business Administration Discipline</h3>
-    <p>Date of Submission: 17th February, 2026</p>
+    <h3>An Assignment on</h3>
+    <h3 id="topicOut"></h3>
     <p>Course Name: Financial Accounting</p>
     <p>Course Code: 0413 03 BA 1209</p>
-    <h3 id="topicOut"></h3>
     <p>Submitted to: Tania Afroze, Professor</p>
     <p>Submitted By:</p>
     <p id="studentOut"></p>
     <p id="idOut"></p>
     <p>25’ Batch</p>
+    <p>Business Administration Discipline</p>
+    <p>Khulna University</p>
+    <p>Date of Submission: 17th February, 2026</p>
+    <div id="footer">Love from Hamim</div>
   </div>
 
+  <!-- JS Libraries -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script>
-    function generatePDF() {
-      document.getElementById("topicOut").innerText = 
-        "Topic: " + document.getElementById("topic").value;
-      document.getElementById("studentOut").innerText = 
-        "Name: " + document.getElementById("student").value;
-      document.getElementById("idOut").innerText = 
-        "ID: " + document.getElementById("id").value;
+    // Handle logo upload
+    document.getElementById("logoUpload").addEventListener("change", function(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const logo = document.getElementById("logo");
+          logo.src = e.target.result;
+          logo.style.display = "block";
+        };
+        reader.readAsDataURL(file);
+      }
+    });
 
+    function generatePDF() {
+      // Fill dynamic fields
+      document.getElementById("topicOut").innerText = document.getElementById("topic").value;
+      document.getElementById("studentOut").innerText = "Name: " + document.getElementById("student").value;
+      document.getElementById("idOut").innerText = "ID: " + document.getElementById("id").value;
+
+      // Apply color theme
+      const color = document.getElementById("colorPicker").value;
+      document.querySelector(".cover").style.borderColor = color;
+      document.querySelectorAll(".cover h2, .cover h3, .cover p").forEach(el => {
+        el.style.color = color;
+      });
+
+      // Show cover
       document.getElementById("cover").style.display = "block";
 
+      // Generate PDF
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
       doc.html(document.getElementById("cover"), {
