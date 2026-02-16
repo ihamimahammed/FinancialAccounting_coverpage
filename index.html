@@ -78,19 +78,18 @@
       document.getElementById("downloadBtn").style.display = "inline-block";
     }
 
-    function downloadPDF() {
+   function downloadPDF() {
   const { jsPDF } = window.jspdf;
-  // Create an A4 PDF with points as units
   const doc = new jsPDF({ unit: "pt", format: "a4" });
 
+  // Use promise-based rendering to avoid freezing the page
   doc.html(document.getElementById("cover"), {
-    callback: function (pdf) {
-      pdf.save("Assignment_Cover.pdf"); // This triggers the download
-    },
-    x: 40,          // left margin
-    y: 40,          // top margin
-    width: 500,     // content width
-    windowWidth: 800 // ensures proper scaling
+    x: 40,
+    y: 40,
+    width: 500,
+    windowWidth: 800
+  }).then(() => {
+    doc.save("Assignment_Cover.pdf"); // triggers download safely
   });
 }
 
