@@ -4,12 +4,13 @@
   <meta charset="UTF-8">
   <title>Assignment Cover Generator</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 40px; text-align: center; }
+    body { font-family: "Microsoft Sans Serif", Arial, sans-serif; margin: 40px; text-align: center; }
     .cover { border: 2px solid black; padding: 40px; width: 650px; margin: auto; }
     h2, h3, p { margin: 10px; }
     input, button { margin: 10px; padding: 8px; width: 80%; }
     img { max-width: 150px; margin: 20px auto; display: block; }
-    .bold { font-weight: bold; color: #266CA9; }
+    .highlight-bold { font-weight: bold; color: #266CA9; }
+    .highlight { color: #266CA9; }
   </style>
 </head>
 <body>
@@ -26,24 +27,24 @@
   <!-- Cover Page -->
   <div id="cover" class="cover" style="display:none;">
     <img id="logo" src="" alt="Logo" style="display:none;">
-    <h2 class="bold">Khulna University</h2>
-    <h3 class="bold">Business Administration Discipline</h3>
-    <h3 class="bold">An Assignment on</h3>
-    <h3 id="topicOut" class="bold"></h3>
-    <p class="bold">Course Name: Financial Accounting</p>
-    <p class="bold">Course Code: 0413 03 BA 1209</p>
-    <p class="bold">Submitted to</p>
+    <h2 class="highlight-bold">Khulna University</h2>
+    <h3 class="highlight-bold">Business Administration Discipline</h3>
+    <h3 class="highlight-bold">An Assignment on</h3>
+    <h3 id="topicOut" class="highlight-bold"></h3>
+    <p class="highlight-bold">Course Name: Financial Accounting</p>
+    <p class="highlight-bold">Course Code: 0413 03 BA 1209</p>
+    <p class="highlight-bold">Submitted to</p>
     <p>Tania Afroze</p>
     <p>Professor</p>
     <p>Business Administration Discipline</p>
     <p>Khulna University</p>
-    <p class="bold">Submitted By</p>
+    <p class="highlight-bold">Submitted By</p>
     <p id="studentOut"></p>
     <p id="idOut"></p>
     <p>25’ Batch</p>
     <p>Business Administration Discipline</p>
     <p>Khulna University</p>
-    <p class="bold">Date of Submission: 17th February, 2026</p>
+    <p class="highlight">Date of Submission: 17th February, 2026</p>
   </div>
 
   <!-- JS Libraries -->
