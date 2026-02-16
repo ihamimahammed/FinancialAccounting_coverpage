@@ -79,18 +79,22 @@
     }
 
     function downloadPDF() {
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF({ unit: "pt", format: "a4" });
-      doc.html(document.getElementById("cover"), {
-        callback: function (pdf) {
-          pdf.save("Assignment_Cover.pdf");
-        },
-        x: 40,
-        y: 40,
-        width: 500,
-        windowWidth: 800
-      });
-    }
+  const { jsPDF } = window.jspdf;
+  // Create an A4 PDF with points as units
+  const doc = new jsPDF({ unit: "pt", format: "a4" });
+
+  doc.html(document.getElementById("cover"), {
+    callback: function (pdf) {
+      pdf.save("Assignment_Cover.pdf"); // This triggers the download
+    },
+    x: 40,          // left margin
+    y: 40,          // top margin
+    width: 500,     // content width
+    windowWidth: 800 // ensures proper scaling
+  });
+}
+
+
   </script>
 </body>
 </html>
