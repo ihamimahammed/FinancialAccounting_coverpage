@@ -82,7 +82,7 @@
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF({ unit: "pt", format: "a4" });
 
-  // Use promise-based rendering to avoid freezing the page
+  // Use async/await to prevent freezing
   doc.html(document.getElementById("cover"), {
     x: 40,
     y: 40,
@@ -90,6 +90,9 @@
     windowWidth: 800
   }).then(() => {
     doc.save("Assignment_Cover.pdf"); // triggers download safely
+  }).catch(err => {
+    console.error("PDF generation failed:", err);
+    alert("Something went wrong while generating the PDF.");
   });
 }
 
