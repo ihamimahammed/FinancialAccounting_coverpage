@@ -78,18 +78,19 @@
       document.getElementById("downloadBtn").style.display = "inline-block";
     }
 
-   function downloadPDF() {
+  function downloadPDF() <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script> {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF({ unit: "pt", format: "a4" });
 
-  // Use async/await to prevent freezing
-  doc.html(document.getElementById("cover"), {
-    x: 40,
-    y: 40,
-    width: 500,
-    windowWidth: 800
-  }).then(() => {
-    doc.save("Assignment_Cover.pdf"); // triggers download safely
+  // Use html2canvas to capture the cover as an image
+  html2canvas(document.getElementById("cover"), { scale: 2 }).then(canvas => {
+    const imgData = canvas.toDataURL("image/png");
+    const imgProps = doc.getImageProperties(imgData);
+    const pdfWidth = doc.internal.pageSize.getWidth();
+    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+    doc.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+    doc.save("Assignment_Cover.pdf");
   }).catch(err => {
     console.error("PDF generation failed:", err);
     alert("Something went wrong while generating the PDF.");
