@@ -2,54 +2,121 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Assignment Cover Generator</title>
+  <title>Khulna University Assignment Cover Generator</title>
   <style>
-    body { font-family: "Microsoft Sans Serif", Arial, sans-serif; margin: 40px; text-align: center; }
-    .cover { border: 2px solid black; padding: 40px; width: 650px; margin: auto; text-align: center; }
+    body { 
+      font-family: "Microsoft Sans Serif", Arial, sans-serif; 
+      margin: 0; 
+      padding: 0; 
+      background-color: #f9f9f9; 
+      text-align: center; 
+    }
+    header {
+      background-color: #266CA9;
+      color: white;
+      padding: 20px;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 28px;
+    }
+    .container {
+      margin: 30px auto;
+      width: 80%;
+      max-width: 800px;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+    }
+    input, button {
+      margin: 10px;
+      padding: 10px;
+      width: 80%;
+      font-size: 16px;
+    }
+    button {
+      background-color: #266CA9;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #1e5585;
+    }
+    .cover {
+      border: 2px solid black; 
+      padding: 40px; 
+      width: 650px; 
+      margin: 30px auto; 
+      text-align: center; 
+      background: white;
+    }
     h2 { font-size: 26px; margin: 14px; }
     h3 { font-size: 22px; margin: 12px; }
     p { font-size: 18px; margin: 10px; }
-    input, button { margin: 10px; padding: 8px; width: 80%; }
     img { max-width: 150px; margin: 20px auto; display: block; }
     .highlight-bold { font-weight: bold; color: #266CA9; }
     .normal { color: black; font-weight: normal; }
     .large { font-size: 20px; }
+    footer {
+      margin-top: 40px;
+      padding: 20px;
+      background-color: #f0f0f0;
+      font-size: 16px;
+    }
+    footer img {
+      max-width: 100px;
+      border-radius: 50%;
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
-  <h2>Assignment Cover Page Generator</h2>
+  <header>
+    <h1>Khulna University Assignment Cover Generator</h1>
+  </header>
 
-  <!-- Inputs -->
-  <input type="text" id="topic" placeholder="Enter Topic Name"><br>
-  <input type="text" id="student" placeholder="Enter Student Name"><br>
-  <input type="text" id="id" placeholder="Enter Student ID"><br>
-  <input type="file" id="logoUpload" accept="image/*"><br>
-  <button onclick="generateCover()">Generate Cover</button>
-  <button id="downloadBtn" onclick="downloadPDF()" style="display:none;">Download PDF</button>
-  <button id="downloadImgBtn" onclick="downloadImage()" style="display:none;">Download as Image</button>
+  <div class="container">
+    <!-- Inputs -->
+    <input type="text" id="topic" placeholder="Enter Topic Name"><br>
+    <input type="text" id="student" placeholder="Enter Student Name"><br>
+    <input type="text" id="id" placeholder="Enter Student ID"><br>
+    <input type="file" id="logoUpload" accept="image/*"><br>
+    <button onclick="generateCover()">Generate Cover</button>
+    <button id="downloadBtn" onclick="downloadPDF()" style="display:none;">Download PDF</button>
+    <button id="downloadImgBtn" onclick="downloadImage()" style="display:none;">Download as Image</button>
 
-  <!-- Cover Page -->
-  <div id="cover" class="cover" style="display:none;">
-    <img id="logo" src="" alt="Logo" style="display:none;">
-    <h2 class="highlight-bold">Khulna University</h2>
-    <h3 class="normal">Business Administration Discipline</h3>
-    <h3 class="highlight-bold">An Assignment on</h3>
-    <h3 id="topicOut" class="normal"></h3>
-    <p class="normal">Course Name: Financial Accounting</p>
-    <p class="normal">Course Code: 0413 03 BA 1209</p>
-    <p class="highlight-bold large">Submitted to</p>
-    <p class="large">Tania Afroze</p>
-    <p class="large">Professor</p>
-    <p class="normal">Business Administration Discipline</p>
-    <p class="normal">Khulna University</p>
-    <p class="highlight-bold large">Submitted By</p>
-    <p id="studentOut" class="normal large"></p>
-    <p id="idOut" class="normal large"></p>
-    <p class="normal">25’ Batch</p>
-    <p class="normal">Business Administration Discipline</p>
-    <p class="normal">Khulna University</p>
-    <p class="normal">Date of Submission: 17th February, 2026</p>
+    <!-- Cover Page -->
+    <div id="cover" class="cover" style="display:none;">
+      <img id="logo" src="" alt="Logo" style="display:none;">
+      <h2 class="highlight-bold">Khulna University</h2>
+      <h3 class="normal">Business Administration Discipline</h3>
+      <h3 class="highlight-bold">An Assignment on</h3>
+      <h3 id="topicOut" class="normal"></h3>
+      <p class="normal">Course Name: Financial Accounting</p>
+      <p class="normal">Course Code: 0413 03 BA 1209</p>
+      <p class="highlight-bold large">Submitted to</p>
+      <p class="large">Tania Afroze</p>
+      <p class="large">Professor</p>
+      <p class="normal">Business Administration Discipline</p>
+      <p class="normal">Khulna University</p>
+      <p class="highlight-bold large">Submitted By</p>
+      <p id="studentOut" class="normal large"></p>
+      <p id="idOut" class="normal large"></p>
+      <p class="normal">25’ Batch</p>
+      <p class="normal">Business Administration Discipline</p>
+      <p class="normal">Khulna University</p>
+      <p class="normal">Date of Submission: 17th February, 2026</p>
+    </div>
   </div>
+
+  <footer>
+    <p>Love from <strong>Hamim Ahammed</strong></p>
+    <!-- Replace 'hamim.jpg' with your actual image file path -->
+    <img src="hamim.jpg" alt="Hamim Ahammed">
+  </footer>
 
   <!-- JS Libraries -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
