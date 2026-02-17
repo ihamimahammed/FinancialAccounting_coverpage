@@ -61,7 +61,7 @@
       box-shadow: 0 0 12px rgba(38,108,169,0.6);
     }
     .cover {
-      border: 2px solid black;
+      
       padding: 40px;
       width: 650px;
       margin: 30px auto;
@@ -186,21 +186,22 @@
     }
 
     function downloadPDF() {
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF({ unit: "pt", format: "a4" });
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ unit: "pt", format: "a4" });
 
-      html2canvas(document.getElementById("cover"), { scale: 2 }).then(canvas => {
-        const imgData = canvas.toDataURL("image/png");
-        const pdfWidth = doc.internal.pageSize.getWidth();
-        const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+  html2canvas(document.getElementById("cover"), { scale: 2 }).then(canvas => {
+    const imgData = canvas.toDataURL("image/png");
+    const pdfWidth = doc.internal.pageSize.getWidth();
+    const pdfHeight = doc.internal.pageSize.getHeight();
 
-        doc.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-        doc.save("Assignment_Cover.pdf");
-      }).catch(err => {
-        console.error("PDF generation failed:", err);
-        alert("Something went wrong while generating the PDF.");
-      });
-    }
+    // Scale the image to fit A4 exactly
+    doc.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+    doc.save("Assignment_Cover.pdf");
+  }).catch(err => {
+    console.error("PDF generation failed:", err);
+    alert("Something went wrong while generating the PDF.");
+  });
+}
 
     function downloadImage() {
       html2canvas(document.getElementById("cover"), { scale: 2 }).then(canvas => {
