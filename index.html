@@ -1,18 +1,17 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Khulna University Financial Accounting Assignment Cover Generator</title>
+  <title>Khulna University Assignment Cover Generator</title>
   <style>
-    body { 
-      font-family: "Microsoft Sans Serif", Arial, sans-serif; 
-      margin: 0; 
-      padding: 0; 
+    body {
+      font-family: "Microsoft Sans Serif", Arial, sans-serif;
+      margin: 0;
+      padding: 0;
       background: linear-gradient(-45deg, #266CA9, #1e5585, #4a90e2, #266CA9);
       background-size: 400% 400%;
       animation: gradientBG 15s ease infinite;
-      text-align: center; 
+      text-align: center;
       color: #333;
     }
     header {
@@ -62,11 +61,11 @@
       box-shadow: 0 0 12px rgba(38,108,169,0.6);
     }
     .cover {
-      border: 2px solid black; 
-      padding: 40px; 
-      width: 650px; 
-      margin: 30px auto; 
-      text-align: center; 
+      border: 2px solid black;
+      padding: 40px;
+      width: 650px;
+      margin: 30px auto;
+      text-align: center;
       background: white;
       box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
       display: none;
@@ -108,21 +107,9 @@
       color: #1e5585;
       text-shadow: 0 0 8px rgba(38,108,169,0.6);
     }
-
-    /* Animations */
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    @keyframes slideDown {
-      from { transform: translateY(-50px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-    @keyframes gradientBG {
-      0% {background-position: 0% 50%;}
-      50% {background-position: 100% 50%;}
-      100% {background-position: 0% 50%;}
-    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes slideDown { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    @keyframes gradientBG { 0% {background-position: 0% 50%;} 50% {background-position: 100% 50%;} 100% {background-position: 0% 50%;} }
   </style>
 </head>
 <body>
@@ -131,7 +118,6 @@
   </header>
 
   <div class="container">
-    <!-- Inputs -->
     <input type="text" id="topic" placeholder="Enter Topic Name"><br>
     <input type="text" id="student" placeholder="Enter Student Name"><br>
     <input type="text" id="id" placeholder="Enter Student ID"><br>
@@ -139,24 +125,17 @@
     <button id="downloadBtn" onclick="downloadPDF()" style="display:none;">Download PDF</button>
     <button id="downloadImgBtn" onclick="downloadImage()" style="display:none;">Download as Image</button>
 
-    <!-- Cover Page -->
     <div id="cover" class="cover">
-      <!-- Pre-uploaded logo -->
       <img src="logo.png" alt="University Logo" class="logo">
-
-      <!-- University Header -->
       <h2 class="highlight-bold">Khulna University</h2>
       <h3 class="normal">Business Administration Discipline</h3>
 
-      <!-- Assignment Info -->
       <h3 class="highlight-bold" style="margin-top:30px;">An Assignment on</h3>
       <h3 id="topicOut" class="normal" style="margin-top:10px;"></h3>
 
-      <!-- Course Info -->
       <p><span class="highlight-bold">Course Name:</span> <span class="normal">Financial Accounting</span></p>
       <p><span class="highlight-bold">Course Code:</span> <span class="normal">0413 03 BA 1209</span></p>
 
-      <!-- Submitted To -->
       <div style="margin-top:30px;">
         <p class="highlight-bold large">Submitted to</p>
         <p class="large">Tania Afroze</p>
@@ -165,17 +144,15 @@
         <p class="normal">Khulna University</p>
       </div>
 
-      <!-- Submitted By -->
       <div style="margin-top:30px;">
         <p class="highlight-bold large">Submitted By</p>
         <p id="studentOut" class="normal large"></p>
-        <p id="idOut" class="normal large"></p>
+        <p><span class="highlight-bold">ID:</span> <span id="idOut" class="normal large"></span></p>
         <p class="normal">25’ Batch</p>
         <p class="normal">Business Administration Discipline</p>
         <p class="normal">Khulna University</p>
       </div>
 
-      <!-- Date -->
       <p class="normal" style="margin-top:30px;">Date of Submission: 17th February, 2026</p>
     </div>
   </div>
@@ -185,19 +162,22 @@
       <a href="https://www.linkedin.com/in/hamimahammed" target="_blank">Hamim Ahammed</a>
     </p>
     <img src="hamim.jpg" alt="Hamim Ahammed">
+    <footer>
+    <p>Love from 
+      <a href="https://www.linkedin.com/in/hamimahammed" target="_blank">Hamim Ahammed</a>
+    </p>
+    <img src="hamim.jpg" alt="Hamim Ahammed">
   </footer>
 
-     <!-- JS Libraries -->
+  <!-- JS Libraries -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script>
     function generateCover() {
-      // Fill dynamic fields
       document.getElementById("topicOut").innerText = document.getElementById("topic").value;
-      document.getElementById("studentOut").innerText = document.getElementById("student").value; // implicit
-      document.getElementById("idOut").innerText = document.getElementById("id").value; // implicit
+      document.getElementById("studentOut").innerText = document.getElementById("student").value;
+      document.getElementById("idOut").innerText = document.getElementById("id").value;
 
-      // Show cover with fade-in + slide-up
       const cover = document.getElementById("cover");
       cover.style.display = "block";
       setTimeout(() => { 
@@ -205,7 +185,6 @@
         cover.style.transform = "translateY(0)";
       }, 50);
 
-      // Show buttons
       document.getElementById("downloadBtn").style.display = "inline-block";
       document.getElementById("downloadImgBtn").style.display = "inline-block";
     }
@@ -241,3 +220,5 @@
   </script>
 </body>
 </html>
+
+   
