@@ -185,17 +185,30 @@
       document.getElementById("downloadImgBtn").style.display = "inline-block";
     }
 
-    function downloadPDF() {
+   function downloadPDF() {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF({ unit: "pt", format: "a4" });
 
   html2canvas(document.getElementById("cover"), { scale: 2 }).then(canvas => {
     const imgData = canvas.toDataURL("image/png");
+
     const pdfWidth = doc.internal.pageSize.getWidth();
     const pdfHeight = doc.internal.pageSize.getHeight();
 
-    // Scale the image to fit A4 exactly
-    doc.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+    // Image dimensions
+    const imgWidth = canvas.width;
+    const imgHeight = canvas.height;
+
+    // Scale image to fit within A4 without stretching
+    const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
+    const finalWidth = imgWidth * ratio;
+    const finalHeight = imgHeight * ratio;
+
+    // Center the image on the page
+    const x = (pdfWidth - finalWidth) / 2;
+    const y = (pdfHeight - finalHeight) / 2;
+
+    doc.addImage(imgData, "PNG", x, y, finalWidth, finalHeight);
     doc.save("Assignment_Cover.pdf");
   }).catch(err => {
     console.error("PDF generation failed:", err);
