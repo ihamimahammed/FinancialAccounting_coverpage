@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eid Mubarak · Card Studio</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#C9A84C;--gold-l:#F0D080;--gold-d:#7A5C14;--bg:#06040E;--cream:#FDF8ED;}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--cream);font-family:'Cormorant Garamond',serif;min-height:100vh;overflow-x:hidden;}
+#starCanvas{position:fixed;inset:0;z-index:0;pointer-events:none;}
+
+/* HERO */
+.hero{position:relative;z-index:1;text-align:center;padding:64px 20px 36px;overflow:hidden;}
+.hero-ring{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);border-radius:50%;border:1px solid rgba(201,168,76,.08);animation:rPulse 6s ease-in-out infinite;pointer-events:none;}
+@keyframes rPulse{0%,100%{opacity:.4;transform:translate(-50%,-50%) scale(1);}50%{opacity:1;transform:translate(-50%,-50%) scale(1.04);}}
+.arabic-top{font-family:'Amiri',serif;font-size:clamp(.9rem,2.5vw,1.3rem);color:rgba(201,168,76,.55);letter-spacing:8px;margin-bottom:12px;animation:fUp .8s ease both;}
+.hero-title{font-family:'Cinzel Decorative',serif;font-size:clamp(2rem,7vw,4.6rem);font-weight:900;background:linear-gradient(135deg,#7A5C14 0%,#C9A84C 25%,#F0D080 50%,#C9A84C 75%,#7A5C14 100%);background-size:200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 4s linear infinite,fUp .8s ease .1s both;line-height:1.1;letter-spacing:2px;}
+@keyframes shimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+.hero-title em{display:block;font-style:normal;font-size:50%;letter-spacing:16px;opacity:.65;margin-top:8px;}
+.hero-sub{font-size:clamp(.85rem,1.8vw,1.1rem);color:rgba(201,168,76,.45);letter-spacing:5px;margin-top:12px;font-style:italic;animation:fUp .8s ease .2s both;}
+.divider{display:flex;align-items:center;justify-content:center;gap:16px;margin:22px auto;animation:fUp .8s ease .3s both;}
+.dline{flex:1;max-width:150px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+.dstar{color:var(--gold);font-size:1rem;animation:spin 12s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+@keyframes fUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:none;}}
+
+/* PANEL */
+.panel{position:relative;z-index:1;max-width:840px;margin:0 auto 26px;padding:28px 28px 22px;background:rgba(255,255,255,.022);border:1px solid rgba(201,168,76,.16);border-radius:14px;backdrop-filter:blur(8px);box-shadow:0 28px 70px rgba(0,0,0,.5),inset 0 1px 0 rgba(201,168,76,.1);animation:fUp .8s ease .4s both;}
+.panel::before{content:'✦ CRAFT YOUR CARD ✦';position:absolute;top:-10px;left:50%;transform:translateX(-50%);font-family:'Cinzel Decorative',serif;font-size:.6rem;letter-spacing:3px;background:var(--bg);padding:2px 16px;color:var(--gold);border:1px solid rgba(201,168,76,.22);border-radius:20px;}
+.fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:16px;margin-bottom:20px;}
+.field label{display:block;font-family:'Cinzel Decorative',serif;font-size:.58rem;letter-spacing:2px;color:rgba(201,168,76,.65);margin-bottom:6px;text-transform:uppercase;}
+.field input,.field select{width:100%;background:rgba(201,168,76,.05);border:1px solid rgba(201,168,76,.18);color:var(--cream);padding:10px 14px;border-radius:8px;font-family:'Cormorant Garamond',serif;font-size:1rem;outline:none;transition:border-color .3s,background .3s,box-shadow .3s;}
+.field input:focus,.field select:focus{border-color:var(--gold);background:rgba(201,168,76,.09);box-shadow:0 0 0 3px rgba(201,168,76,.07);}
+.field select option{background:#100806;}
+.btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;}
+.btn{font-family:'Cinzel Decorative',serif;font-size:.7rem;letter-spacing:2px;padding:12px 32px;border:none;border-radius:50px;cursor:pointer;transition:all .35s cubic-bezier(.34,1.56,.64,1);}
+.btn-gold{background:linear-gradient(135deg,#7A5C14,#C9A84C 40%,#F0D080 55%,#C9A84C 70%,#7A5C14);background-size:200%;color:#1a0800;font-weight:700;box-shadow:0 4px 22px rgba(201,168,76,.32),inset 0 1px 0 rgba(255,255,255,.25);animation:shimmer 3s linear infinite;}
+.btn-gold:hover{transform:translateY(-3px) scale(1.05);box-shadow:0 10px 38px rgba(201,168,76,.55);}
+.btn-out{background:transparent;border:1.5px solid rgba(201,168,76,.35);color:var(--gold);}
+.btn-out:hover{border-color:var(--gold);background:rgba(201,168,76,.08);transform:translateY(-2px);}
+
+/* PILLS */
+.pills{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:0 auto 28px;max-width:700px;position:relative;z-index:1;}
+.pill{font-family:'Cormorant Garamond',serif;font-size:.95rem;letter-spacing:1px;font-style:italic;padding:7px 22px;border-radius:30px;border:1.5px solid rgba(201,168,76,.2);background:transparent;color:rgba(201,168,76,.5);cursor:pointer;transition:all .3s;}
+.pill:hover,.pill.active{border-color:var(--gold);color:var(--gold);background:rgba(201,168,76,.1);box-shadow:0 0 18px rgba(201,168,76,.12);}
+
+/* ORNAMENT */
+.orn{position:relative;z-index:1;text-align:center;margin-bottom:28px;display:flex;align-items:center;justify-content:center;gap:18px;}
+.orn-line{flex:1;max-width:200px;height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.28),transparent);}
+.orn-txt{font-family:'Cinzel Decorative',serif;font-size:.6rem;color:rgba(201,168,76,.45);letter-spacing:4px;}
+
+/* GRID */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:34px;padding:0 32px 80px;max-width:1280px;margin:0 auto;position:relative;z-index:1;}
+.cw{display:flex;flex-direction:column;align-items:center;gap:14px;animation:cardIn .7s cubic-bezier(.34,1.56,.64,1) both;}
+@keyframes cardIn{from{opacity:0;transform:translateY(40px) scale(.94);}to{opacity:1;transform:none;}}
+.cf{width:100%;border-radius:14px;overflow:hidden;box-shadow:0 0 0 1px rgba(201,168,76,.1),0 8px 32px rgba(0,0,0,.5),0 22px 55px rgba(0,0,0,.32);cursor:pointer;transition:transform .4s cubic-bezier(.34,1.56,.64,1),box-shadow .4s;position:relative;}
+.cf::before{content:'';position:absolute;inset:0;z-index:2;border-radius:14px;background:linear-gradient(135deg,rgba(201,168,76,.07) 0%,transparent 45%);pointer-events:none;}
+.cf:hover{transform:translateY(-10px) scale(1.026) rotateX(2deg);box-shadow:0 0 0 1.5px rgba(201,168,76,.38),0 22px 60px rgba(0,0,0,.6),0 0 38px rgba(201,168,76,.1);}
+.cf svg{width:100%;height:auto;display:block;}
+.cl-title{font-family:'Cinzel Decorative',serif;font-size:.72rem;letter-spacing:2px;color:var(--gold);}
+.cl-sub{font-size:.85rem;font-style:italic;color:rgba(201,168,76,.42);letter-spacing:1px;margin-top:2px;}
+.cbtns{display:flex;gap:8px;}
+.cbtn{font-family:'Cormorant Garamond',serif;font-size:.9rem;padding:7px 20px;border-radius:30px;cursor:pointer;transition:all .25s;letter-spacing:.5px;}
+.cbtn-dl{background:linear-gradient(135deg,#C9A84C,#F0D080);border:none;color:#1a0800;font-weight:700;}
+.cbtn-dl:hover{box-shadow:0 4px 18px rgba(201,168,76,.48);transform:translateY(-1px);}
+.cbtn-cp{background:transparent;border:1.5px solid rgba(201,168,76,.28);color:var(--gold);}
+.cbtn-cp:hover{border-color:var(--gold);background:rgba(201,168,76,.08);}
+
+/* FOOTER */
+footer{position:relative;z-index:1;text-align:center;padding:48px 20px 38px;border-top:1px solid rgba(201,168,76,.1);}
+.f-arabic{font-family:'Amiri',serif;font-size:1.2rem;color:rgba(201,168,76,.38);letter-spacing:6px;margin-bottom:18px;}
+.f-love{font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:rgba(201,168,76,.5);font-style:italic;letter-spacing:1px;margin-bottom:5px;}
+.f-name{font-family:'Cinzel Decorative',serif;font-size:1.15rem;background:linear-gradient(135deg,#C9A84C,#F0D080,#C9A84C);background-size:200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 4s linear infinite;letter-spacing:4px;}
+.f-langs{margin-top:18px;font-family:'Amiri',serif;font-size:.82rem;color:rgba(201,168,76,.22);letter-spacing:4px;}
+.f-heart{display:inline-block;color:#C9A84C;animation:heartbeat 1.4s ease-in-out infinite;}
+@keyframes heartbeat{0%,100%{transform:scale(1);}50%{transform:scale(1.25);}}
+
+/* TOAST */
+.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(100px);background:linear-gradient(135deg,#C9A84C,#F0D080);color:#1a0800;font-family:'Cormorant Garamond',serif;font-weight:700;padding:11px 30px;border-radius:50px;font-size:1rem;transition:transform .45s cubic-bezier(.34,1.56,.64,1);z-index:1000;pointer-events:none;}
+.toast.show{transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+
+<canvas id="starCanvas"></canvas>
+
+<header class="hero">
+  <div class="hero-ring" style="width:700px;height:700px;"></div>
+  <div class="hero-ring" style="width:500px;height:500px;animation-delay:-2s;border-color:rgba(201,168,76,.12);"></div>
+  <div class="hero-ring" style="width:320px;height:320px;animation-delay:-4s;border-color:rgba(201,168,76,.18);"></div>
+  <div class="arabic-top">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</div>
+  <h1 class="hero-title">Eid Mubarak<em>Card Studio</em></h1>
+  <p class="hero-sub">✦ Design · Personalize · Share ✦</p>
+  <div class="divider"><div class="dline"></div><div class="dstar">✦</div><div class="dline"></div></div>
+</header>
+
+<div class="panel" style="margin-left:auto;margin-right:auto;">
+  <div class="fields">
+    <div class="field"><label>Your Name</label><input id="sn" type="text" value="Hamim Ahammed"></div>
+    <div class="field"><label>Recipient</label><input id="rn" type="text" value="Dear Friend"></div>
+    <div class="field" style="grid-column:span 2"><label>Your Heartfelt Message</label><input id="mg" type="text" value="May Allah shower you with endless blessings this Eid"></div>
+  </div>
+  <div class="btns">
+    <button class="btn btn-gold" onclick="gen()">✦ Generate Cards</button>
+    <button class="btn btn-out" onclick="dlAll()">↓ Download All</button>
+  </div>
+</div>
+
+<div class="pills" id="pills">
+  <button class="pill active" onclick="setPill(this,'all')">All Styles</button>
+  <button class="pill" onclick="setPill(this,'royal')">Royal Gold</button>
+  <button class="pill" onclick="setPill(this,'night')">Moonlit Night</button>
+  <button class="pill" onclick="setPill(this,'floral')">Persian Floral</button>
+  <button class="pill" onclick="setPill(this,'geo')">Geometric</button>
+  <button class="pill" onclick="setPill(this,'lantern')">Golden Lantern</button>
+  <button class="pill" onclick="setPill(this,'sunrise')">Desert Sunrise</button>
+</div>
+
+<div class="orn"><div class="orn-line"></div><div class="orn-txt">YOUR CARDS</div><div class="orn-line"></div></div>
+<div class="grid" id="grid"></div>
+
+<footer>
+  <div class="f-arabic">عيد مبارك · ঈদ মোবারক · Eid Mubarak</div>
+  <div class="f-love">With <span class="f-heart">♥</span> love &amp; Eid blessings, crafted by</div>
+  <div class="f-name">Hamim Ahammed</div>
+  <div class="f-langs">Khulna University · Bangladesh · 🌙</div>
+</footer>
+<div class="toast" id="toast">✦ Done!</div>
+
+<script>
+// ── STARFIELD CANVAS ──────────────────────────────────────
+const cv=document.getElementById('starCanvas'),cx=cv.getContext('2d');
+let W,H,stars=[],parts=[];
+function rsz(){W=cv.width=window.innerWidth;H=cv.height=window.innerHeight;}
+rsz();window.addEventListener('resize',rsz);
+const rng0=mb32(42);
+for(let i=0;i<200;i++)stars.push({x:rng0()*4000,y:rng0()*3000,r:rng0()*1.3+.2,o:rng0()*.75+.1,fl:rng0()*3});
+for(let i=0;i<30;i++)parts.push(mkP());
+function mkP(){return{x:Math.random()*4000,y:Math.random()*3000,vx:(Math.random()-.5)*.25,vy:-Math.random()*.4-.08,r:Math.random()*2+.4,o:Math.random()*.45+.15,life:Math.random(),dec:Math.random()*.003+.001};}
+function mb32(a){return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+let tt=0;
+(function loop(){
+  cx.clearRect(0,0,W,H);
+  stars.forEach(s=>{const f=Math.sin(tt*.6+s.fl)*.3+.7;cx.beginPath();cx.arc(s.x%W,s.y%H,s.r,0,Math.PI*2);cx.fillStyle=`rgba(255,252,210,${(s.o*f).toFixed(2)})`;cx.fill();});
+  parts.forEach((p,i)=>{p.x+=p.vx;p.y+=p.vy;p.life-=p.dec;if(p.life<=0){parts[i]=mkP();return;}cx.beginPath();cx.arc(p.x%W,p.y%H,p.r,0,Math.PI*2);const g=cx.createRadialGradient(p.x%W,p.y%H,0,p.x%W,p.y%H,p.r*3);g.addColorStop(0,`rgba(240,208,128,${(p.o*p.life).toFixed(2)})`);g.addColorStop(1,'transparent');cx.fillStyle=g;cx.fill();});
+  tt+=.018;requestAnimationFrame(loop);
+})();
+
+// ── SVG HELPERS ───────────────────────────────────────────
+const E=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+
+function wrap(txt,cx,y,maxW,sz,col,op,ital,fam='Georgia,serif'){
+  const words=txt.split(' '),cpl=Math.floor(maxW/(sz*.52)),lines=[];
+  let cur='';
+  for(const w of words){if((cur+' '+w).trim().length>cpl&&cur){lines.push(cur.trim());cur=w;}else cur=cur?cur+' '+w:w;}
+  if(cur)lines.push(cur.trim());
+  const lh=sz*1.62,tot=(lines.length-1)*lh;
+  return lines.map((l,i)=>`<text x="${cx}" y="${(y+i*lh-tot/2).toFixed(1)}" text-anchor="middle" fill="${col}" font-size="${sz}" opacity="${op}" font-style="${ital?'italic':'normal'}" font-family="${fam}">${E(l)}</text>`).join('');
+}
+
+function gV(id,stops){return `<linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1">${stops.map(([o,c])=>`<stop offset="${o}" stop-color="${c}"/>`).join('')}</linearGradient>`;}
+function gH(id,stops){return `<linearGradient id="${id}" x1="0" y1="0" x2="1" y2="0">${stops.map(([o,c])=>`<stop offset="${o}" stop-color="${c}"/>`).join('')}</linearGradient>`;}
+function gR(id,cxa,cya,stops){return `<radialGradient id="${id}" cx="${cxa}" cy="${cya}">${stops.map(([o,c,a=1])=>`<stop offset="${o}" stop-color="${c}" stop-opacity="${a}"/>`).join('')}</radialGradient>`;}
+
+function cresc(cx,cy,col,sz){
+  return `<g transform="translate(${cx},${cy})"><circle cx="${-sz*.1}" cy="0" r="${sz*.5}" fill="${col}"/><circle cx="${sz*.22}" cy="${-sz*.06}" r="${sz*.38}" fill="#030008" opacity=".95"/><polygon points="${sz*.74},0 ${sz*.9},${sz*.13} ${sz*1.14},0 ${sz*.9},-${sz*.13}" fill="${col}"/><circle cx="${sz*.75}" cy="0" r="${sz*.06}" fill="${col}"/></g>`;
+}
+
+function star8(cx,cy,R,r2,fill,str,sw=1,op=1){
+  const pts=[];for(let i=0;i<16;i++){const a=i*Math.PI/8,R2=i%2===0?R:r2;pts.push(`${(cx+R2*Math.cos(a-Math.PI/2)).toFixed(1)},${(cy+R2*Math.sin(a-Math.PI/2)).toFixed(1)}`);}
+  return `<polygon points="${pts.join(' ')}" fill="${fill}" stroke="${str}" stroke-width="${sw}" opacity="${op}"/>`;
+}
+
+function corn(x,y,mx,my){
+  return `<g transform="translate(${x},${y}) scale(${mx?-1:1},${my?-1:1})"><path d="M0,0 L24,0" stroke="#C9A84C" stroke-width="1.6" opacity=".75"/><path d="M0,0 L0,24" stroke="#C9A84C" stroke-width="1.6" opacity=".75"/><circle cx="0" cy="0" r="3.5" fill="#C9A84C" opacity=".9"/><path d="M7,0 Q16,7 0,16" fill="none" stroke="#C9A84C" stroke-width=".7" opacity=".38"/><circle cx="24" cy="0" r="1.5" fill="#C9A84C" opacity=".4"/><circle cx="0" cy="24" r="1.5" fill="#C9A84C" opacity=".4"/></g>`;
+}
+
+function moq(cx,cy,col,sc=1,op=1){
+  return `<g transform="translate(${cx},${cy}) scale(${sc})" opacity="${op}">
+    <rect x="-100" y="0" width="200" height="18" rx="2" fill="${col}" opacity=".22"/>
+    <rect x="-52" y="-62" width="104" height="62" fill="${col}" opacity=".16"/>
+    <path d="M-58,-62 Q0,-108 58,-62Z" fill="${col}" opacity=".32"/>
+    <ellipse cx="0" cy="-62" rx="30" ry="38" fill="${col}" opacity=".28"/>
+    <ellipse cx="0" cy="-62" rx="16" ry="22" fill="${col}" opacity=".22"/>
+    <line x1="0" y1="-100" x2="0" y2="-118" stroke="${col}" stroke-width="2.5" opacity=".7"/>
+    <circle cx="0" cy="-121" r="3.8" fill="${col}" opacity=".8"/>
+    <rect x="-74" y="-58" width="13" height="58" fill="${col}" opacity=".2"/>
+    <path d="M-80,-58 Q-67,-77 -54,-58Z" fill="${col}" opacity=".28"/>
+    <line x1="-67" y1="-77" x2="-67" y2="-96" stroke="${col}" stroke-width="1.8" opacity=".6"/>
+    <rect x="61" y="-58" width="13" height="58" fill="${col}" opacity=".2"/>
+    <path d="M54,-58 Q67,-77 80,-58Z" fill="${col}" opacity=".28"/>
+    <line x1="67" y1="-77" x2="67" y2="-96" stroke="${col}" stroke-width="1.8" opacity=".6"/>
+    ${[-32,-16,0,16,32].map(d=>`<path d="M${d-9},-10 L${d-9},-28 Q${d},-40 ${d+9},-28 L${d+9},-10Z" fill="${col}" opacity=".22"/>`).join('')}
+  </g>`;
+}
+
+function lant(cx,cy,col='#C9A84C',gc='#FFD060'){
+  return `<g transform="translate(${cx},${cy})">
+    <ellipse cx="0" cy="0" rx="100" ry="60" fill="${gc}" opacity=".06"/>
+    <line x1="0" y1="-96" x2="0" y2="-72" stroke="${col}" stroke-width="1.6"/>
+    <path d="M-14,-72 Q0,-86 14,-72 L16,-58 L-16,-58Z" fill="${col}" opacity=".92"/>
+    <path d="M-30,-58 Q-40,0 -28,56 L28,56 Q40,0 30,-58Z" fill="${gc}" fill-opacity=".1" stroke="${col}" stroke-width="1.6"/>
+    <line x1="-30" y1="-30" x2="30" y2="-30" stroke="${col}" stroke-width=".85" opacity=".6"/>
+    <line x1="-34" y1="0" x2="34" y2="0" stroke="${col}" stroke-width=".85" opacity=".6"/>
+    <line x1="-30" y1="30" x2="30" y2="30" stroke="${col}" stroke-width=".85" opacity=".6"/>
+    <line x1="0" y1="-58" x2="0" y2="56" stroke="${col}" stroke-width=".6" opacity=".32"/>
+    <line x1="-30" y1="-58" x2="28" y2="56" stroke="${col}" stroke-width=".4" opacity=".18"/>
+    <line x1="30" y1="-58" x2="-28" y2="56" stroke="${col}" stroke-width=".4" opacity=".18"/>
+    <path d="M0,-44 L18,0 L0,44 L-18,0Z" fill="${gc}" fill-opacity=".16" stroke="${col}" stroke-width=".9"/>
+    <path d="M-28,56 L28,56 L22,70 Q0,78 -22,70Z" fill="${col}" opacity=".92"/>
+    <line x1="0" y1="70" x2="0" y2="88" stroke="${col}" stroke-width="1.6"/>
+    <ellipse cx="0" cy="91" rx="5.5" ry="9" fill="${col}" opacity=".85"/>
+    <ellipse cx="0" cy="-12" rx="16" ry="18" fill="${gc}" fill-opacity=".18"/>
+  </g>`;
+}
+
+function flEl(cx,cy,col,r){
+  let s='';
+  for(let i=0;i<8;i++){const a=i*45*Math.PI/180,ex=cx+r*Math.cos(a),ey=cy+r*Math.sin(a);s+=`<ellipse cx="${ex.toFixed(1)}" cy="${ey.toFixed(1)}" rx="${(r*.44).toFixed(1)}" ry="${(r*.19).toFixed(1)}" transform="rotate(${i*45},${ex.toFixed(1)},${ey.toFixed(1)})" fill="${col}" opacity=".42"/>`;}
+  return s+`<circle cx="${cx}" cy="${cy}" r="${(r*.22).toFixed(1)}" fill="${col}" opacity=".72"/>`;
+}
+
+function starsField(n,seed){
+  const r=mb32(seed);let s='';
+  for(let i=0;i<n;i++){const x=r()*500,y=r()*700,R=r()*1.2+.2,o=r()*.7+.15;s+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${R.toFixed(1)}" fill="white" opacity="${o.toFixed(2)}"/>`;}
+  return s;
+}
+
+function geoBg(col,op){
+  let s='';
+  for(let x=-40;x<560;x+=58)for(let y=-40;y<760;y+=58){const pts=[];for(let i=0;i<8;i++){const a=i*45*Math.PI/180;pts.push(`${(x+24*Math.cos(a)).toFixed(1)},${(y+24*Math.sin(a)).toFixed(1)}`);}s+=`<polygon points="${pts.join(' ')}" fill="none" stroke="${col}" stroke-width=".55" opacity="${op}"/>`;}
+  return s;
+}
+
+// ══════════════════════════════════════════════════
+// CARD BUILDERS
+// ══════════════════════════════════════════════════
+
+function cRoyal(sn,rn,msg){
+  const [s,r,m]=[E(sn),E(rn),E(msg)];
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 700">
+<defs>
+  ${gV('rBg',[['0%','#190402'],['50%','#3C0D07'],['100%','#190402']])}
+  ${gH('rG',[['0%','#7A5C14'],['28%','#C9A84C'],['50%','#F0D080'],['72%','#C9A84C'],['100%','#7A5C14']])}
+  ${gR('rGw','50%','22%',[['0%','#C9A84C','0.22'],['100%','transparent','0']])}
+  <filter id="rGlw"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>
+<rect width="500" height="700" fill="url(#rBg)"/>
+<rect width="500" height="700" fill="url(#rGw)"/>
+<rect x="10" y="10" width="480" height="680" rx="6" fill="none" stroke="url(#rG)" stroke-width="1.9"/>
+<rect x="19" y="19" width="462" height="662" rx="3" fill="none" stroke="url(#rG)" stroke-width=".5" stroke-dasharray="5 9" opacity=".45"/>
+${corn(24,24,false,false)}${corn(476,24,true,false)}${corn(24,676,false,true)}${corn(476,676,true,true)}
+<path d="M115,136 Q250,40 385,136" fill="none" stroke="url(#rG)" stroke-width="2" filter="url(#rGlw)"/>
+<path d="M140,136 Q250,65 360,136" fill="none" stroke="url(#rG)" stroke-width=".6" opacity=".38"/>
+${cresc(250,56,'#F0D080',28)}
+${star8(250,56,40,20,'none','#C9A84C',.9,.3)}
+${moq(250,238,'#C9A84C',1.38,.42)}
+<line x1="70" y1="344" x2="430" y2="344" stroke="url(#rG)" stroke-width="1"/>
+<circle cx="250" cy="344" r="5" fill="#F0D080" filter="url(#rGlw)"/>
+<circle cx="105" cy="344" r="2.2" fill="#C9A84C" opacity=".5"/>
+<circle cx="395" cy="344" r="2.2" fill="#C9A84C" opacity=".5"/>
+${flEl(46,366,'#C9A84C',22)}${flEl(454,366,'#C9A84C',22)}
+<text x="250" y="390" text-anchor="middle" font-family="'Amiri',serif" font-size="16" fill="#F0D080" letter-spacing="5" opacity=".78">عيد مبارك</text>
+<text x="250" y="446" text-anchor="middle" font-family="Georgia,serif" font-size="52" font-weight="bold" fill="url(#rG)" filter="url(#rGlw)" letter-spacing="2">Eid Mubarak</text>
+<text x="250" y="470" text-anchor="middle" font-family="Georgia,serif" font-size="11" fill="#C9A84C" letter-spacing="7" opacity=".72">✦  BLESSED  CELEBRATIONS  ✦</text>
+${wrap(m,250,518,382,17,'#FDF8ED',.84,true)}
+<line x1="135" y1="604" x2="365" y2="604" stroke="url(#rG)" stroke-width=".7" opacity=".48"/>
+<text x="250" y="596" text-anchor="middle" font-family="Georgia,serif" font-size="13" fill="#F0D080" opacity=".75">To: ${r}</text>
+<text x="250" y="622" text-anchor="middle" font-family="Georgia,serif" font-size="12" fill="#C9A84C" opacity=".62">From: ${s}</text>
+${[...Array(9)].map((_,i)=>{const x=110+i*36;return `<path d="M${x},-7 Q${x+7},0 ${x},7 Q${x-7},0 ${x},-7Z" transform="translate(0,655)" fill="#C9A84C" opacity="${i%2?'.22':'.5'}"/>`;}).join('')}
+<text x="250" y="686" text-anchor="middle" font-family="Georgia,serif" font-size="10" fill="#C9A84C" letter-spacing="5" opacity=".36">✦  EID MUBARAK  ✦</text>
+</svg>`;
+}
+
+function cNight(sn,rn,msg){
+  const [s,r,m]=[E(sn),E(rn),E(msg)];
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 700">
+<defs>
+  ${gV('nBg',[['0%','#01050F'],['55%','#050D1E'],['100%','#010610']])}
+  ${gH('nBl',[['0%','#0A2466'],['40%','#2A6EBB'],['50%','#5BAEE8'],['60%','#2A6EBB'],['100%','#0A2466']])}
+  ${gR('nMn','72%','16%',[['0%','#FFF9D0','0.52'],['38%','#6AAAD4','0.1'],['100%','transparent','0']])}
+  <filter id="nGlw"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  <filter id="nHalo"><feGaussianBlur stdDeviation="14"/></filter>
+</defs>
+<rect width="500" height="700" fill="url(#nBg)"/>
+<rect width="500" height="700" fill="url(#nMn)"/>
+${starsField(55,77)}
+<rect x="12" y="12" width="476" height="676" rx="8" fill="none" stroke="url(#nBl)" stroke-width="1.4"/>
+<!-- moon -->
+<circle cx="372" cy="112" r="65" fill="#FFF9D0" opacity=".05" filter="url(#nHalo)"/>
+<circle cx="372" cy="112" r="46" fill="#FFF9D0" opacity=".86" filter="url(#nGlw)"/>
+<circle cx="390" cy="104" r="37" fill="url(#nBg)"/>
+<ellipse cx="360" cy="98" rx="11" ry="6" fill="white" opacity=".1" transform="rotate(-22,360,98)"/>
+${star8(333,70,10,5,'#FFF9D0','none',0,.72)}
+${star8(414,148,7,3.5,'#FFF9D0','none',0,.5)}
+<!-- city -->
+<g opacity=".9">
+  <rect x="0" y="500" width="500" height="200" fill="#020A16"/>
+  <rect x="8" y="448" width="38" height="56" rx="1" fill="#041026"/>
+  <rect x="50" y="428" width="30" height="76" rx="1" fill="#030D22"/>
+  <rect x="84" y="460" width="46" height="44" rx="1" fill="#041028"/>
+  <rect x="134" y="402" width="56" height="102" rx="1" fill="#030E24"/>
+  <path d="M134,402 L162,375 L190,402Z" fill="#041026"/>
+  <rect x="192" y="436" width="32" height="68" rx="1" fill="#030D22"/>
+  <rect x="228" y="408" width="50" height="96" rx="1" fill="#041028"/>
+  <rect x="220" y="394" width="64" height="110" rx="1" fill="#050F28"/>
+  <path d="M220,394 Q252,352 284,394Z" fill="#06112C"/>
+  <ellipse cx="252" cy="368" rx="22" ry="28" fill="#060F28" opacity=".9"/>
+  <line x1="252" y1="340" x2="252" y2="322" stroke="#2A6EBB" stroke-width="1.6" opacity=".75"/>
+  <circle cx="252" cy="320" r="3.2" fill="#2A6EBB" opacity=".85"/>
+  <rect x="286" y="438" width="40" height="66" rx="1" fill="#030E24"/>
+  <rect x="330" y="418" width="54" height="86" rx="1" fill="#041028"/>
+  <rect x="388" y="442" width="36" height="62" rx="1" fill="#030D22"/>
+  <rect x="428" y="424" width="44" height="80" rx="1" fill="#041026"/>
+  <rect x="467" y="450" width="33" height="54" rx="1" fill="#030E24"/>
+  ${[...Array(22)].map((_,i)=>{const wx=22+i*22,wy=428+Math.sin(i*1.4)*14;return `<rect x="${wx}" y="${wy}" width="4" height="6" rx="1" fill="#FFF3B0" opacity="${i%3===0?.5:.08}"/>`;}).join('')}
+  <rect x="0" y="500" width="500" height="5" fill="#2A6EBB" opacity=".22"/>
+  <rect x="0" y="505" width="500" height="195" fill="#030814"/>
+  ${[...Array(5)].map((_,i)=>`<line x1="0" y1="${514+i*11}" x2="500" y2="${514+i*11}" stroke="#2A6EBB" stroke-width=".3" opacity="${.03+i*.008}"/>`).join('')}
+</g>
+<line x1="68" y1="312" x2="432" y2="312" stroke="url(#nBl)" stroke-width=".85"/>
+<circle cx="250" cy="312" r="4.5" fill="#5BAEE8" filter="url(#nGlw)"/>
+<text x="250" y="354" text-anchor="middle" font-family="'Amiri',serif" font-size="15" fill="#5BAEE8" letter-spacing="6" opacity=".88">عيد مبارك</text>
+<text x="250" y="406" text-anchor="middle" font-family="Georgia,serif" font-size="50" font-weight="bold" fill="#FFF9D0" filter="url(#nGlw)" letter-spacing="1">Eid Mubarak</text>
+<text x="250" y="430" text-anchor="middle" font-family="Georgia,serif" font-size="11" fill="#5BAEE8" letter-spacing="6" opacity=".8">☽  UNDER THE BLESSED MOON  ☾</text>
+${wrap(m,250,472,368,16,'#C5DFFB',.9,true)}
+<text x="250" y="556" text-anchor="middle" font-family="Georgia,serif" font-size="13" fill="#5BAEE8" opacity=".8">To: ${r}</text>
+<line x1="172" y1="566" x2="328" y2="566" stroke="#5BAEE8" stroke-width=".5" opacity=".35"/>
+<text x="250" y="583" text-anchor="middle" font-family="Georgia,serif" font-size="12" fill="#5BAEE8" opacity=".6">From: ${s}</text>
+${cresc(250,658,'#5BAEE8',15)}
+<text x="250" y="686" text-anchor="middle" font-family="Georgia,serif" font-size="9" fill="#5BAEE8" letter-spacing="5" opacity=".32">✦  EID MUBARAK  ✦</text>
+</svg>`;
+}
+
+function cFloral(sn,rn,msg){
+  const [s,r,m]=[E(sn),E(rn),E(msg)];
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 700">
+<defs>
+  ${gV('fBg',[['0%','#160924'],['50%','#28103A'],['100%','#160924']])}
+  ${gH('fG',[['0%','#7A2042'],['30%','#D4608A'],['50%','#F0D080'],['70%','#D4608A'],['100%','#7A2042']])}
+  ${gR('fGw','50%','36%',[['0%','#C9A84C','0.17'],['100%','transparent','0']])}
+  <filter id="fGlw"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>
+<rect width="500" height="700" fill="url(#fBg)"/>
+<rect width="500" height="700" fill="url(#fGw)"/>
+<rect x="10" y="10" width="480" height="680" rx="3" fill="none" stroke="url(#fG)" stroke-width="1.9"/>
+<rect x="19" y="19" width="462" height="662" rx="1" fill="none" stroke="#8B2258" stroke-width=".6" stroke-dasharray="4 8" opacity=".48"/>
+${flEl(30,30,'#C9A84C',30)}${flEl(470,30,'#C9A84C',30)}
+${flEl(30,670,'#C9A84C',30)}${flEl(470,670,'#C9A84C',30)}
+${corn(42,42,false,false)}${corn(458,42,true,false)}${corn(42,658,false,true)}${corn(458,658,true,true)}
+${[...Array(16)].map((_,i)=>{const a=i*22.5*Math.PI/180;return `<circle cx="${(250+70*Math.cos(a)).toFixed(1)}" cy="${(144+70*Math.sin(a)).toFixed(1)}" r="3" fill="#D4608A" opacity="${i%2?'.22':'.5'}"/>`;}).join('')}
+${star8(250,144,56,30,'#8B2258','#D4608A',1,.38)}
+${star8(250,144,38,22,'none','#F0D080',1,.5)}
+${cresc(250,144,'#F0D080',24)}
+${[...Array(7)].map((_,i)=>flEl(62+i*64,228,'#9B2355',15)).join('')}
+<line x1="30" y1="242" x2="470" y2="242" stroke="url(#fG)" stroke-width=".85" opacity=".48"/>
+${moq(250,322,'#C9A84C',1.24,.34)}
+<line x1="70" y1="368" x2="430" y2="368" stroke="url(#fG)" stroke-width="1"/>
+<circle cx="250" cy="368" r="5" fill="#F0D080" filter="url(#fGlw)"/>
+<text x="250" y="408" text-anchor="middle" font-family="'Amiri',serif" font-size="16" fill="#D4608A" letter-spacing="5" opacity=".84">عيد مبارك</text>
+<text x="250" y="460" text-anchor="middle" font-family="Georgia,serif" font-size="50" font-weight="bold" fill="url(#fG)" filter="url(#fGlw)" letter-spacing="1">Eid Mubarak</text>
+<text x="250" y="484" text-anchor="middle" font-family="Georgia,serif" font-size="11" fill="#C9A84C" letter-spacing="6" opacity=".7">✿  BLESSINGS IN BLOOM  ✿</text>
+${wrap(m,250,530,376,17,'#FAE0EE',.85,true)}
+<text x="250" y="606" text-anchor="middle" font-family="Georgia,serif" font-size="13" fill="#D4608A" opacity=".8">To: ${r}</text>
+<line x1="175" y1="616" x2="325" y2="616" stroke="#D4608A" stroke-width=".5" opacity=".38"/>
+<text x="250" y="634" text-anchor="middle" font-family="Georgia,serif" font-size="12" fill="#D4608A" opacity=".62">From: ${s}</text>
+${[...Array(7)].map((_,i)=>flEl(62+i*64,670,'#9B2355',12)).join('')}
+<text x="250" y="692" text-anchor="middle" font-family="Georgia,serif" font-size="9" fill="#D4608A" letter-spacing="5" opacity=".33">✦  EID MUBARAK  ✦</text>
+</svg>`;
+}
+
+function cGeo(sn,rn,msg){
+  const [s,r,m]=[E(sn),E(rn),E(msg)];
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 700">
+<defs>
+  ${gV('gBg',[['0%','#020F08'],['50%','#041A09'],['100%','#020F08']])}
+  ${gH('gEm',[['0%','#0A5A30'],['40%','#1EAA62'],['50%','#2EE080'],['60%','#1EAA62'],['100%','#0A5A30']])}
+  ${gH('gGl',[['0%','#7A5C14'],['50%','#F0D080'],['100%','#7A5C14']])}
+  ${gR('gGw','50%','24%',[['0%','#1EAA62','0.14'],['100%','transparent','0']])}
+  <filter id="gGlw"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  <clipPath id="gCl"><rect width="500" height="700" rx="12"/></clipPath>
+</defs>
+<g clip-path="url(#gCl)">
+<rect width="500" height="700" fill="url(#gBg)"/>
+<rect width="500" height="700" fill="url(#gGw)"/>
+${geoBg('#1EAA62','0.065')}
+<rect x="0" y="0" width="500" height="5" fill="url(#gEm)"/>
+<polygon points="0,0 130,0 0,130" fill="#1EAA62" opacity=".055"/>
+<polygon points="500,0 370,0 500,130" fill="#1EAA62" opacity=".055"/>
+${star8(250,140,66,36,'#1EAA62','#2EE080',1.3,.14)}
+${star8(250,140,54,30,'none','#2EE080',1.3,.4)}
+${star8(250,140,30,17,'#1EAA62','none',0,.5)}
+${cresc(250,140,'#F0D080',34)}
+<line x1="28" y1="50" x2="28" y2="650" stroke="url(#gEm)" stroke-width=".6" opacity=".28"/>
+<line x1="472" y1="50" x2="472" y2="650" stroke="url(#gEm)" stroke-width=".6" opacity=".28"/>
+<rect x="0" y="246" width="500" height="3" fill="url(#gEm)" opacity=".85"/>
+${moq(250,332,'#1EAA62',1.34,.5)}
+<line x1="68" y1="392" x2="200" y2="392" stroke="url(#gEm)" stroke-width="1.1"/>
+<line x1="300" y1="392" x2="432" y2="392" stroke="url(#gEm)" stroke-width="1.1"/>
+${star8(250,392,13,6.5,'#1EAA62','#2EE080',1,.7)}
+<text x="250" y="430" text-anchor="middle" font-family="'Amiri',serif" font-size="15" fill="#2EE080" letter-spacing="6" opacity=".9">عيد مبارك</text>
+<text x="250" y="484" text-anchor="middle" font-family="Georgia,serif" font-size="50" font-weight="bold" fill="url(#gGl)" filter="url(#gGlw)" letter-spacing="2">Eid Mubarak</text>
+<text x="250" y="508" text-anchor="middle" font-family="Georgia,serif" font-size="11" fill="#2EE080" letter-spacing="5" opacity=".8">GEOMETRIC · BLESSINGS · TILES</text>
+${wrap(m,250,554,370,16,'#C8F5E0',.9,true)}
+<text x="250" y="624" text-anchor="middle" font-family="Georgia,serif" font-size="13" fill="#2EE080" opacity=".8">To: ${r}</text>
+<line x1="172" y1="634" x2="328" y2="634" stroke="#2EE080" stroke-width=".5" opacity=".38"/>
+<text x="250" y="652" text-anchor="middle" font-family="Georgia,serif" font-size="12" fill="#2EE080" opacity=".62">From: ${s}</text>
+<rect x="0" y="695" width="500" height="5" fill="url(#gEm)"/>
+<text x="250" y="682" text-anchor="middle" font-family="Georgia,serif" font-size="9" fill="#2EE080" letter-spacing="5" opacity=".38">✦  EID MUBARAK  ✦</text>
+</g>
+</svg>`;
+}
+
+function cLantern(sn,rn,msg){
+  const [s,r,m]=[E(sn),E(rn),E(msg)];
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 700">
+<defs>
+  ${gV('lBg',[['0%','#140205'],['50%','#280508'],['100%','#0F0204']])}
+  ${gH('lG',[['0%','#7A1A20'],['28%','#C9A84C'],['50%','#F0D080'],['72%','#C9A84C'],['100%','#7A1A20']])}
+  ${gR('lGw','50%','30%',[['0%','#FFD060','0.36'],['42%','#FF6020','0.07'],['100%','transparent','0']])}
+  <filter id="lGlw"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  <filter id="lHl"><feGaussianBlur stdDeviation="18"/></filter>
+</defs>
+<rect width="500" height="700" fill="url(#lBg)"/>
+<rect width="500" height="700" fill="url(#lGw)"/>
+<ellipse cx="250" cy="234" rx="140" ry="115" fill="#FFD060" opacity=".06" filter="url(#lHl)"/>
+<rect x="10" y="10" width="480" height="680" rx="5" fill="none" stroke="url(#lG)" stroke-width="2"/>
+<rect x="20" y="20" width="460" height="660" rx="3" fill="none" stroke="#8B1A20" stroke-width=".6" stroke-dasharray="4 7" opacity=".46"/>
+${corn(24,24,false,false)}${corn(476,24,true,false)}${corn(24,676,false,true)}${corn(476,676,true,true)}
+<path d="M240,18 Q250,10 260,18" fill="none" stroke="#C9A84C" stroke-width="1.5"/>
+<line x1="250" y1="18" x2="250" y2="84" stroke="#C9A84C" stroke-width="1.5"/>
+${lant(250,188,'#C9A84C','#FFD060')}
+${lant(90,246,'#8B6914','#FFB040')}
+${lant(410,246,'#8B6914','#FFB040')}
+<line x1="90" y1="158" x2="250" y2="102" stroke="#8B6914" stroke-width="1" opacity=".38" stroke-dasharray="3 4"/>
+<line x1="410" y1="158" x2="250" y2="102" stroke="#8B6914" stroke-width="1" opacity=".38" stroke-dasharray="3 4"/>
+<line x1="70" y1="326" x2="430" y2="326" stroke="url(#lG)" stroke-width="1"/>
+<circle cx="250" cy="326" r="5" fill="#F0D080" filter="url(#lGlw)"/>
+<circle cx="108" cy="326" r="2.2" fill="#C9A84C" opacity=".5"/>
+<circle cx="392" cy="326" r="2.2" fill="#C9A84C" opacity=".5"/>
+<text x="250" y="366" text-anchor="middle" font-family="'Amiri',serif" font-size="16" fill="#F0D080" letter-spacing="5" opacity=".8">عيد مبارك</text>
+<text x="250" y="420" text-anchor="middle" font-family="Georgia,serif" font-size="50" font-weight="bold" fill="url(#lG)" filter="url(#lGlw)" letter-spacing="2">Eid Mubarak</text>
+<text x="250" y="445" text-anchor="middle" font-family="Georgia,serif" font-size="11" fill="#C9A84C" letter-spacing="6" opacity=".72">🕌  WARM WISHES &amp; BLESSINGS  🕌</text>
+${wrap(m,250,494,375,17,'#FDF8ED',.84,true)}
+<text x="250" y="575" text-anchor="middle" font-family="Georgia,serif" font-size="13" fill="#F0D080" opacity=".78">To: ${r}</text>
+<line x1="172" y1="585" x2="328" y2="585" stroke="#C9A84C" stroke-width=".5" opacity=".4"/>
+<text x="250" y="603" text-anchor="middle" font-family="Georgia,serif" font-size="12" fill="#C9A84C" opacity=".62">From: ${s}</text>
+${[...Array(11)].map((_,i)=>{const x=92+i*34;return `<path d="M${x},-7 Q${x+7},0 ${x},7 Q${x-7},0 ${x},-7Z" transform="translate(0,645)" fill="#C9A84C" opacity="${i%2?'.22':'.5'}"/>`;}).join('')}
+${[...Array(11)].map((_,i)=>{const x=92+i*34;return `<path d="M${x},-5 Q${x+5},0 ${x},5 Q${x-5},0 ${x},-5Z" transform="translate(0,665)" fill="#8B1A20" opacity="${i%2?'.18':'.38'}"/>`;}).join('')}
+<text x="250" y="690" text-anchor="middle" font-family="Georgia,serif" font-size="9" fill="#C9A84C" letter-spacing="5" opacity=".34">✦  EID MUBARAK  ✦</text>
+</svg>`;
+}
+
+function cSunrise(sn,rn,msg){
+  const [s,r,m]=[E(sn),E(rn),E(msg)];
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 700">
+<defs>
+  ${gV('sBg',[['0%','#0E0805'],['50%','#1E1008'],['100%','#0E0805']])}
+  ${gV('sSky',[['0%','#4A1005'],['38%','#B04020'],['62%','#E08030'],['84%','#F0C060'],['100%','#F0D090']])}
+  ${gH('sTl',[['0%','#0A4040'],['40%','#1A9090'],['50%','#30C0B0'],['60%','#1A9090'],['100%','#0A4040']])}
+  ${gR('sSun','50%','62%',[['0%','#FFF0A0','0.88'],['30%','#F0A020','0.38'],['70%','#C04010','0.09'],['100%','transparent','0']])}
+  <filter id="sGlw"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  <filter id="sHl"><feGaussianBlur stdDeviation="22"/></filter>
+  <clipPath id="sCl"><rect width="500" height="700" rx="10"/></clipPath>
+</defs>
+<g clip-path="url(#sCl)">
+<rect width="500" height="700" fill="url(#sBg)"/>
+<rect x="0" y="0" width="500" height="330" fill="url(#sSky)" opacity=".62"/>
+<circle cx="250" cy="285" r="145" fill="url(#sSun)" filter="url(#sHl)" opacity=".68"/>
+<circle cx="250" cy="285" r="40" fill="#FFF0A0" opacity=".88" filter="url(#sGlw)"/>
+<circle cx="250" cy="285" r="28" fill="#FFFDE0" opacity=".95"/>
+${[...Array(18)].map((_,i)=>{const a=i*20*Math.PI/180;return `<line x1="${(250+34*Math.cos(a)).toFixed(1)}" y1="${(285+34*Math.sin(a)).toFixed(1)}" x2="${(250+74*Math.cos(a)).toFixed(1)}" y2="${(285+74*Math.sin(a)).toFixed(1)}" stroke="#F0C060" stroke-width="${i%2?.8:1.3}" opacity="${i%2?.28:.52}"/>`;}).join('')}
+<path d="M0,428 Q90,368 185,405 Q280,442 385,382 Q444,354 500,392 L500,700 L0,700Z" fill="#3A1A08" opacity=".82"/>
+<path d="M0,468 Q104,426 205,450 Q305,472 408,434 Q458,416 500,448 L500,700 L0,700Z" fill="#2A1005" opacity=".92"/>
+${moq(250,400,'#1A0804',1.42,1)}
+${starsField(32,99)}
+${cresc(372,65,'#FFF0A0',21)}
+${star8(372,65,32,17,'none','#FFF0A0',.8,.24)}
+<rect x="10" y="10" width="480" height="680" rx="8" fill="none" stroke="url(#sTl)" stroke-width="1.9"/>
+<rect x="19" y="19" width="462" height="662" rx="6" fill="none" stroke="url(#sTl)" stroke-width=".5" opacity=".36" stroke-dasharray="5 10"/>
+${corn(24,24,false,false)}${corn(476,24,true,false)}${corn(24,676,false,true)}${corn(476,676,true,true)}
+<rect x="28" y="450" width="444" height="218" rx="4" fill="#0E0805" opacity=".5"/>
+<line x1="70" y1="465" x2="430" y2="465" stroke="url(#sTl)" stroke-width="1"/>
+<circle cx="250" cy="465" r="4.5" fill="#30C0B0" filter="url(#sGlw)"/>
+<text x="250" y="504" text-anchor="middle" font-family="'Amiri',serif" font-size="16" fill="#30C0B0" letter-spacing="5" opacity=".9">عيد مبارك</text>
+<text x="250" y="554" text-anchor="middle" font-family="Georgia,serif" font-size="48" font-weight="bold" fill="#FFF0A0" filter="url(#sGlw)" letter-spacing="2">Eid Mubarak</text>
+<text x="250" y="578" text-anchor="middle" font-family="Georgia,serif" font-size="11" fill="#30C0B0" letter-spacing="6" opacity=".8">☀  DESERT DAWN BLESSINGS  ☀</text>
+${wrap(m,250,616,370,15,'#FFF5DC',.84,true)}
+<text x="250" y="652" text-anchor="middle" font-family="Georgia,serif" font-size="13" fill="#30C0B0" opacity=".8">To: ${r}</text>
+<line x1="176" y1="662" x2="324" y2="662" stroke="#30C0B0" stroke-width=".5" opacity=".38"/>
+<text x="250" y="679" text-anchor="middle" font-family="Georgia,serif" font-size="12" fill="#30C0B0" opacity=".62">From: ${s}</text>
+<text x="250" y="693" text-anchor="middle" font-family="Georgia,serif" font-size="9" fill="#30C0B0" letter-spacing="5" opacity=".3">✦  EID MUBARAK  ✦</text>
+</g>
+</svg>`;
+}
+
+// ── THEME MAP ─────────────────────────────────────────────
+const TH={
+  royal:   {fn:cRoyal,   label:'Royal Gold',        sub:'Regal Crimson & Filigree'},
+  night:   {fn:cNight,   label:'Moonlit Night',      sub:'Celestial Blue & Cityscape'},
+  floral:  {fn:cFloral,  label:'Persian Floral',     sub:'Rose Gold & Plum Bloom'},
+  geo:     {fn:cGeo,     label:'Geometric Emerald',  sub:'Islamic Star Tessellation'},
+  lantern: {fn:cLantern, label:'Golden Lantern',     sub:'Warm Amber & Crimson'},
+  sunrise: {fn:cSunrise, label:'Desert Sunrise',     sub:'Terracotta Dunes & Teal'},
+};
+
+let activeStyle='all';
+function setPill(el,style){
+  document.querySelectorAll('.pill').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active'); activeStyle=style; gen();
+}
+function gen(){
+  const sn=document.getElementById('sn').value.trim()||'Hamim Ahammed';
+  const rn=document.getElementById('rn').value.trim()||'Dear Friend';
+  const mg=document.getElementById('mg').value.trim()||'May Allah bless you this Eid';
+  const grid=document.getElementById('grid');
+  grid.innerHTML='';
+  const list=activeStyle==='all'?Object.entries(TH):Object.entries(TH).filter(([k])=>k===activeStyle);
+  list.forEach(([key,th],idx)=>{
+    const w=document.createElement('div');
+    w.className='cw'; w.style.animationDelay=`${idx*.12}s`;
+    w.innerHTML=`
+      <div class="cf" id="c-${key}">${th.fn(sn,rn,mg)}</div>
+      <div style="text-align:center"><div class="cl-title">${th.label}</div><div class="cl-sub">${th.sub}</div></div>
+      <div class="cbtns">
+        <button class="cbtn cbtn-dl" onclick="dlCard('${key}','${th.label}')">↓ Download SVG</button>
+        <button class="cbtn cbtn-cp" onclick="cpCard('${key}')">⧉ Copy</button>
+      </div>`;
+    grid.appendChild(w);
+  });
+}
+function dlCard(key,label){
+  const svg=document.querySelector(`#c-${key} svg`); if(!svg)return;
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([new XMLSerializer().serializeToString(svg)],{type:'image/svg+xml'}));
+  a.download=`EidMubarak_${label.replace(/ /g,'_')}.svg`; a.click(); toast('✦ Downloaded!');
+}
+function dlAll(){
+  const frames=document.querySelectorAll('.cf'); if(!frames.length){gen();setTimeout(dlAll,400);return;}
+  frames.forEach((f,i)=>{const svg=f.querySelector('svg');if(!svg)return;const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([new XMLSerializer().serializeToString(svg)],{type:'image/svg+xml'}));a.download=`EidMubarak_${i+1}.svg`;setTimeout(()=>a.click(),i*260);});
+  toast('✦ Downloading all!');
+}
+function cpCard(key){
+  const svg=document.querySelector(`#c-${key} svg`); if(!svg)return;
+  navigator.clipboard.writeText(new XMLSerializer().serializeToString(svg)); toast('✦ SVG copied!');
+}
+function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2700);}
+window.addEventListener('DOMContentLoaded',gen);
+</script>
+</body>
+</html>
